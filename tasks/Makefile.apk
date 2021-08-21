@@ -22,6 +22,7 @@ $(PACKAGER_PUBKEY_INSTALLED): $(PACKAGER_PUBKEY)
 
 endif
 
+export PACKAGE_DIST_ARCH ?= $(shell uname -m)
 export APK_PACKAGE_ENABLED := $(shell $(LOCAL_BIN)/package-filter apk-enabled "$(APK_PACKAGE_ENABLED)" "$(PACKAGE_TYPES_DISABLED)")
 export APK_TEMPLATE_PATH ?= ../../apk/templates/
 export APK_BUILD_TEMPLATE ?= APKBUILD.github-binary
@@ -31,7 +32,7 @@ export APK_TMP_DIR ?= $(APK_DEFAULT_TMP_DIR)
 export APK_PACKAGE_NAME ?= $(PACKAGE_NAME)
 export APK_NORMALIZED_PACKAGE_VERSION := $(if $(subst false,,$(PACKAGE_PRERELEASE_ENABLED)),$(shell printf "%s" "$(PACKAGE_VERSION)" | sed -E 's/-([a-z]*)\.?/_\1/'),$(PACKAGE_VERSION))
 export APK_PACKAGE_VERSION ?= $(APK_NORMALIZED_PACKAGE_VERSION)
-export APK_PACKAGE ?= $(APK_PACKAGES_PATH)/vendor/x86_64/$(APK_PACKAGE_NAME)-$(APK_PACKAGE_VERSION)-r$(PACKAGE_RELEASE).apk
+export APK_PACKAGE ?= $(APK_PACKAGES_PATH)/vendor/$(PACKAGE_DIST_ARCH)/$(APK_PACKAGE_NAME)-$(APK_PACKAGE_VERSION)-r$(PACKAGE_RELEASE).apk
 export SRCDEST := $(APK_TMP_DIR)/cache
 
 apk/prepare::

@@ -1,3 +1,6 @@
+ARCH ?= $(shell uname -m)
+ifeq ($(ARCH), 'aarch64')
+endif
 PACKAGES_PATH ?= .
 DEB_PACKAGES_PATH ?= $(PACKAGES_PATH)
 # Debian sorts 1.0.0-rc1 as later than 1.0.0, but using tilde preserves semver ordering in most cases
